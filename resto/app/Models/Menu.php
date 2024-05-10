@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     use HasFactory;
-    protected $fillable = array("nom", "description", "prix", "estVege");
+    protected $fillable = array("nom", "description", "prix", "estVege", "image");
     protected $casts = [
         'estVege' => 'boolean'
     ];
+
+    public function imageFullPath()
+    {
+        return "/storage/$this->image";
+    }
 }

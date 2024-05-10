@@ -6,9 +6,18 @@
     <main class="flex-auto flex flex-col justify-center align-center text-center gap-5 bg-white ">
         <h1 class="text-lg">Ajouter un menu</h1>
 
-        <form action="{{ route('menus.store') }}" method="POST">
+        <form action="{{ route('menus.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
             {{-- @method("PUT") --}}
+            <div class="my-2">
+                <label for="image">Image</label>
+                <input type="file" name="image" id="image" class="border-2" accept="image/*, image/jpeg"
+                    {{-- value="{{ old("image") }}" --}}>
+                @error('image')
+                    <p class="text-red-900 text-lg">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="my-2">
                 <label for="nom">Nom</label>
                 <input type="text" name="nom" id="nom" class="border-2" value="{{ old('nom') }}">

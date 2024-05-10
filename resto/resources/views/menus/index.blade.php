@@ -38,6 +38,12 @@
                     'text-amber-900 z-10 basis-1/4 bg-amber-500',
                     'bg-blue-500 text-white' => $menu->prix > 10,
                 ])>
+                    @if ($menu->image)
+                        <img src="/storage/{{ $menu->image }}" alt="Image pour {{ $menu->nom }}">
+                        
+                    @else
+                        <img src="/assets/img/banniere.jpeg" alt="Image pour {{ $menu->nom }}">
+                    @endif
                     <p>{{ $menu->nom }}</p>
                     <p>{{ $menu->prix }}</p>
                     <p>{{ $menu->description }}</p>

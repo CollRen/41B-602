@@ -16,6 +16,7 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
+       
         // Log::info($request->url());
         // Log::warning("Message d'avertissement");
         // Log::error("Erreur");
@@ -68,7 +69,13 @@ class MenuController extends Controller
 
         // Conversion de la valeur de la clé "estVege" en boolean
         $nouveauMenu->estVege = $request->boolean("estVege");
-        dd($request->boolean("estVege"));
+
+        if($request->image){
+            
+            $path = $request->image->store("menus", "public");
+            $nouveauMenu->image = imageFullPath();
+        } 
+        
         // Utilisation d'un bloc try/catch pour gérer les erreurs potentielles lors de l'enregistrement du Menu
         $nouveauMenu->save();
 

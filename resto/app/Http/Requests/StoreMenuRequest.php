@@ -25,7 +25,9 @@ class StoreMenuRequest extends FormRequest
             "nom" => "required|min:3|max:100|string",
             "description" => "required|max:250|string",
             "prix" => "required|numeric|min:0|decimal:0,2|max:200",
-            "estVege" => "boolean"
+            "estVege" => "boolean",
+            "menu" => "string",
+            "image" => "image|max:5000"
         ];
     }
 }
