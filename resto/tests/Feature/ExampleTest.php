@@ -12,8 +12,9 @@ class ExampleTest extends TestCase
      */
     public function test_the_application_returns_a_successful_response(): void
     {
-        $response = $this->get('/');
+        $response = $this->get('/'); /* On appel cette route */
 
+        $response->assertSeeText('Bienvenue au Resto à déjeuner');  /* On analyse la réponse -> vérifier qu'il y a un H1 */
         $response->assertStatus(200);
     }
 }

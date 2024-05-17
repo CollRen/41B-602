@@ -16,7 +16,20 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-       
+
+        /**!SECTION
+         * Stockage d'infos dans l'objet session
+         * Voir /MenuController/show() pour le get()
+         */
+        session()->put("Suivra", "Toujous");
+        /**!SECTION
+         * Pratique pour message court pour un seul affichage
+         */
+        session()->flash("seraEffacé", "AffichéSeulementUnePage");
+
+        session()->forget("Suivra");
+
+
         // Log::info($request->url());
         // Log::warning("Message d'avertissement");
         // Log::error("Erreur");
@@ -70,16 +83,17 @@ class MenuController extends Controller
         // Conversion de la valeur de la clé "estVege" en boolean
         $nouveauMenu->estVege = $request->boolean("estVege");
 
-        if($request->image){
-            
+        if ($request->image) {
+
             $path = $request->image->store("menus", "public");
             $nouveauMenu->image = imageFullPath();
-        } 
-        
+        }
+
         // Utilisation d'un bloc try/catch pour gérer les erreurs potentielles lors de l'enregistrement du Menu
         $nouveauMenu->save();
 
         // Si tout se passe bien, redirection vers l'index des menus
+        // with ajoute sa clé, valeur dans la session();
         return redirect()->route("menus.index")->with("success", "Le menu a été ajouté");
     }
 
@@ -89,6 +103,13 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
+        /**!SECTION
+         * Comment aller chercher ce qui se trouve dans session()
+         */
+        /*
+            $Suivra = session()->get("Suivra");
+            dd($Suivra); 
+        */
         return view("menus.menu", ["menu" => $menu, "title" => $menu->nom]);
     }
 
