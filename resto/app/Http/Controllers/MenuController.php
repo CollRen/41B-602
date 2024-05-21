@@ -16,47 +16,56 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         /**!SECTION
          * Stockage d'infos dans l'objet session
          * Voir /MenuController/show() pour le get()
          */
-        session()->put("Suivra", "Toujous");
+        // session()->put("Suivra", "Toujous");
         /**!SECTION
          * Pratique pour message court pour un seul affichage
          */
-        session()->flash("seraEffacé", "AffichéSeulementUnePage");
-
-        session()->forget("Suivra");
-
-
+        // session()->flash("seraEffacé", "AffichéSeulementUnePage");
+        
+        // session()->forget("Suivra");
+        
+        
         // Log::info($request->url());
         // Log::warning("Message d'avertissement");
         // Log::error("Erreur");
         // abort(419, "Message personnalisé");
         // try {
-        //     throw new Exception("Patate");
-        // } catch (Exception $e) {
-        //     Log::warning($e->getMessage());
-        //     return back()->with("erreur", $e->getMessage());
-        // }
-        //On récupère le queryString de la requête donc de l'url Ex: www.patate.com?tri=nom&direction=asc
-        $tri = $request->query('tri', 'nom');
-        $direction = $request->query('direction', 'asc');
-        $prixMax = $request->query("prix-max");
+            //     throw new Exception("Patate");
+            // } catch (Exception $e) {
+                //     Log::warning($e->getMessage());
+                //     return back()->with("erreur", $e->getMessage());
+                // }
+                //On récupère le queryString de la requête donc de l'url Ex: www.patate.com?tri=nom&direction=asc
+                $tri = $request->query('tri', 'nom');
+                $direction = $request->query('direction', 'asc');
+                $prixMax = $request->query("prix-max");
+                $category = $request->query("category") ?? '';
 
-        //Query démare une demande au modèle et doit finir avec get()
-        $menuQuery = Menu::query();
-        $menuQuery->orderBy($tri, $direction);
+                if($request->query("category")){
+                    $menuQuery = Menu::query()->where('category_id', '==', );
+                }
+                
 
-        if ($prixMax) {
-            $menuQuery->where("prix", "<", $prixMax);
-        }
-
-        $menus = $menuQuery->get();
-
-        return view("menus.index", ["menus" => $menus, "title" => "Menus du resto"]);
-    }
+                
+                //Query démare une demande au modèle et doit finir avec get()
+                $menuQuery = Menu::query();
+                $menuQuery->orderBy($tri, $direction);
+                
+                if ($prixMax) {
+                    $menuQuery->where("prix", "<", $prixMax);
+                }
+                
+                $menus = $menuQuery->get();
+                // dd($menus->first()->category->nom);
+                dd('Relations');
+                
+                return view("menus.index", ["menus" => $menus, "title" => "Menus du resto"]);
+            }
 
     /**
      * Show the form for creating a new resource.
