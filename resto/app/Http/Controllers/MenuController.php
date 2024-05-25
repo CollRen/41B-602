@@ -27,10 +27,10 @@ class MenuController extends Controller
         // abort(419, "Message personnalisé");
 
         //On récupère le queryString de la requête donc de l'url Ex: www.patate.com?tri=nom&direction=asc
-        $tri = $request->query('tri', 'nom');
+        $tri = $request->query('tri', 'titre');
         $direction = $request->query('direction', 'asc');
         $prixMax = $request->query("prix-max");
-        $categorie = $request->query("categorie");
+        $categorie = $request->query("category");
 
         //Query démare une demande au modèle et doit finir avec get()
         $menuQuery = Menu::query();
@@ -45,11 +45,16 @@ class MenuController extends Controller
             $menuQuery->where("prix", "<", $prixMax);
         }
 
-        $menus = $menuQuery->get();
+        // On remplace le get par paginate
+        // $menus = $menuQuery->get(); 
+
+        // Paginate ajoute la méthode links dans Blade
+        $menus = $menuQuery->simplePaginate(6)->withQueryString();
+
 
         $categories = Categorie::all();
         $tests = $categories->first()->menus;
-        dd($tests);
+        // dd($tests);
         // dd($menus->first()->categorie->nom);
         return view("menus.index", ["menus" => $menus, "title" => "Menus du resto", "categories" => $categories]);
     }

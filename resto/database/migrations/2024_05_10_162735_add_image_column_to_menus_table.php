@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('menus', function (Blueprint $table) {
-            $table->string("image")->nullable(true);
+            // $table->string("image")->nullable(true);
         });
     }
 
